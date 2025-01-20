@@ -1,0 +1,4 @@
+yarn.lock
+package-lock.json
+voices/*
+node_modules
