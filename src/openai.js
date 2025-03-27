@@ -1,6 +1,6 @@
-import { Configuration, OpenAIApi } from 'openai'
+import {Configuration, OpenAIApi} from 'openai'
 import config from "config";
-import { createReadStream } from 'fs';
+import {createReadStream} from 'fs';
 
 const configuration = new Configuration({
     apiKey: config.get('OPENAI_KEY')
@@ -22,7 +22,7 @@ export const transcription = async (mp3file) => {
 export const completion = async (messages) => {
     try {
         const res = await openai.createChatCompletion({
-            model: "gpt-4o",
+            model: "gpt-4o-2024-11-20",
             messages,
         })
         return res.data.choices[0].message
@@ -33,12 +33,11 @@ export const completion = async (messages) => {
 
 export const image = async (prompt) => {
     try {
-        const res = await openai.createImage({
+        return await openai.createImage({
             prompt,
             n: 1,
             size: '1024x1024'
         })
-        return res.data.data[0].url;
     } catch (err) {
         return 'Хер тебе, а не картинка!'
     }

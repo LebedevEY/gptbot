@@ -46,6 +46,8 @@ bot.on(message('text'), async (ctx) => {
             })
         }
         await ctx.reply(response.content).catch(err => ctx.reply(err.description || 'WTF'));
+    } else if (response.data.created) {
+        await ctx.reply(response.data.data[0].url);
     } else {
         await ctx.reply(response.response.data.error.message);
     }
