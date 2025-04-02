@@ -1,9 +1,8 @@
 import {Configuration, OpenAIApi} from 'openai'
-import config from "config";
 import {createReadStream} from 'fs';
 
 const configuration = new Configuration({
-    apiKey: config.get('OPENAI_KEY')
+    apiKey: process.env.OPENAI_KEY
 })
 const openai = new OpenAIApi(configuration)
 
@@ -15,7 +14,8 @@ export const transcription = async (mp3file) => {
         )
         return res.data.text
     } catch (e) {
-        console.error(e.message)
+        console.error(`Ошибка транскрипции: ${e.message}`)
+        throw e
     }
 }
 
@@ -27,18 +27,21 @@ export const completion = async (messages) => {
         })
         return res.data.choices[0].message
     } catch (err) {
+        console.error(`Ошибка запроса к ChatGPT: ${err.message}`)
         return err
     }
 }
 
 export const image = async (prompt) => {
     try {
-        return await openai.createImage({
+        const response = await openai.createImage({
             prompt,
             n: 1,
             size: '1024x1024'
         })
+        return response
     } catch (err) {
-        return 'Хер тебе, а не картинка!'
+        console.error(`Ошибка генерации изображения: ${err.message}`)
+        return { error: 'Не удалось создать изображение по вашему запросу' }
     }
 }

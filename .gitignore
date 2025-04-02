@@ -3,3 +3,5 @@ package-lock.json
 voices/*
 node_modules
 config_example.json
+.env
+data/
