@@ -2,6 +2,7 @@ import {OpenAI} from 'openai'
 import {createReadStream} from 'fs';
 
 const openai = new OpenAI({
+    baseURL: "https://openrouter.ai/api/v1",
     apiKey: process.env.OPENAI_KEY,
 })
 
@@ -22,7 +23,9 @@ export const transcription = async (mp3file) => {
 export const completion = async (messages) => {
     try {
         const res = await openai.chat.completions.create({
-            model: "gpt-4-turbo",
+            model: "meta-llama/llama-4-maverick:free",
+            tools: [],
+            max_tokens: 500,
             messages,
         })
         return res.choices[0].message
