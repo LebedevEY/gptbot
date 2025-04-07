@@ -69,7 +69,7 @@ export const imageAnalysis = async (messages, base64Image) => {
         ];
 
         const res = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "meta-llama/llama-4-maverick:free",
             messages: messagesWithImage
         });
 
